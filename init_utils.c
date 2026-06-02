@@ -6,7 +6,7 @@
 /*   By: bgranier <bgranier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 10:54:02 by bgranier          #+#    #+#             */
-/*   Updated: 2026/06/02 11:57:41 by bgranier         ###   ########.fr       */
+/*   Updated: 2026/06/02 12:27:30 by bgranier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,23 @@ void	cleanup_sim(t_sim *sim)
 {
 	int	i;
 
+	if (!sim)
+		return ;
 	i = 0;
 	while (i < sim->nb_coders)
 	{
-		if (sim->dongles[i].queue)
-			heap_destroy(sim->dongles[i].queue);
+		pthread_mutex_lock(&sim->dongles[i].mutex);
+		sim->dongles[i].in_use = 0; 
+		pthread_mutex_unlock(&sim->dongles[i].mutex);
 		pthread_mutex_destroy(&sim->dongles[i].mutex);
 		pthread_cond_destroy(&sim->dongles[i].cond);
+		if (sim->dongles[i].queue)
+			heap_destroy(sim->dongles[i].queue);
 		i++;
 	}
-	free(sim->dongles);
+	pthread_mutex_destroy(&sim->running_mutex);
+	pthread_mutex_destroy(&sim->log_mutex);
 	free(sim->compile_count);
 	free(sim->last_compile_start);
-	pthread_mutex_destroy(&sim->log_mutex);
-	pthread_mutex_destroy(&sim->running_mutex);
+	free(sim->dongles);
 }
