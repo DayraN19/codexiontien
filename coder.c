@@ -6,7 +6,7 @@
 /*   By: bgranier <bgranier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 09:37:10 by bgranier          #+#    #+#             */
-/*   Updated: 2026/06/02 12:21:40 by bgranier         ###   ########.fr       */
+/*   Updated: 2026/06/02 12:38:42 by bgranier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	*coder_routine(void *arg)
 	{
 		if (!coder_compile(c))
 			break ;
-		if (!is_running(sim) || sim->compile_count[idx] >= sim->nb_compiles_required)
+		if (!is_running(sim)
+			|| sim->compile_count[idx] >= sim->nb_compiles_required)
 			break ;
 		ft_log(sim, c->id, "is debugging");
 		ft_usleep(sim->time_to_debug);

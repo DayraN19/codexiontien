@@ -6,7 +6,7 @@
 /*   By: bgranier <bgranier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 10:54:02 by bgranier          #+#    #+#             */
-/*   Updated: 2026/06/02 12:27:30 by bgranier         ###   ########.fr       */
+/*   Updated: 2026/06/02 12:38:57 by bgranier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	cleanup_sim(t_sim *sim)
 	while (i < sim->nb_coders)
 	{
 		pthread_mutex_lock(&sim->dongles[i].mutex);
-		sim->dongles[i].in_use = 0; 
+		sim->dongles[i].in_use = 0;
 		pthread_mutex_unlock(&sim->dongles[i].mutex);
 		pthread_mutex_destroy(&sim->dongles[i].mutex);
 		pthread_cond_destroy(&sim->dongles[i].cond);
